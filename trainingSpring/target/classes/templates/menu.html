@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js" integrity="sha256-tcqPYPyxU+Fsv5sVdvnxLYJ7Jq9wWpi4twZbtZ0ubY8=" crossorigin="anonymous"></script>
+<link th:href="@{/css/screen.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<title>家計簿メニュー</title>
+</head>
+<body>
+  <form id="menuform" name="menuform" method="post" action="/" onsubmit="return checkLength(document.menuform.note_data.value, 4000);" th:object="${formModel}">
+    <input type ="hidden" name="btnFlg" value="">
+    <div class="container-fluid">
+	  <nav class="navbar navbar-inverse">
+	      <div class="navbar-header">
+	        <a class="navbar-brand" href="/">家計簿メニュー</a>
+	      </div>
+	  </nav>      
+	  <div class="row row-height">
+        <!-- 右側 -->
+        <div class="col-md-3 p-5">
+          <div class="card-header rounded">
+            <p><b><span style="border-bottom: solid 2px black;">メ ニ ュ ー</span></b></p>
+          </div>
+          <div class="card-body rounded">
+            <p><button type="submit" onClick="menuform.btnFlg.value='entry'" class="btn btn-primary" style="width:200px">家計簿記入</button></p>
+            <p><button type="submit" onClick="menuform.btnFlg.value='search'" class="btn btn-primary" style="width:200px">家計簿履歴</button></p>
+            <p style="margin-top:100%;"><button type="submit" onClick="menuform.btnFlg.value='logoff'" class="btn btn-primary" style="width:200px">ログアウト</button></p>
+          </div>
+        </div>
+      
+        <!-- 左側 -->
+        <div class="col-md-9 pt-5">
+          <div class="card-header rounded">
+            <p><b><span style="border-bottom: solid 2px black;">メ モ</span></b></p>
+          </div>
+          <div class="card-body rounded">
+            <p><textarea id="memo" autocomplete="off" rows="6" class="form-control" style="resize: none;" name="note_data" th:text="${note_data}" ></textarea></p>
+            <p><button type="submit" onClick="menuform.btnFlg.value='note'" class="btn btn-primary" style="width:200px">メモ登録</button></p>
+          </div>
+          <div class="card-header rounded">
+            <table>
+              <tr>
+                <th>今月収支合計</th>
+                <th>前月収支合計</th>
+                <th>前月との差額</th>
+              </tr>
+              <tr>
+                <td th:text="${month_shushi}"></td>
+                <td th:text="${lastmonth_shushi}"></td>
+                <td th:text="${diff_amount}"></td>
+              </tr>
+            </table>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </form>
+</body>
+</html>

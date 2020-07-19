@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<!-- Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js" integrity="sha256-tcqPYPyxU+Fsv5sVdvnxLYJ7Jq9wWpi4twZbtZ0ubY8=" crossorigin="anonymous"></script>
+<!-- Bootstrap datepicker -->
+<link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.ja.min.js}"></script>
+
+<link th:href="@{/css/screen.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<title>家計簿更新</title>
+</head>
+<body>
+  <form id="updateform" name="updateform" method="post" onsubmit="return entryCheck(document.updateform);" action="/update" th:object="${formModel}">
+    <input type ="hidden" name="btnFlg" value="">
+    <input type ="hidden" name="id" th:value="${id}">
+    <div class="container-fluid">
+	  <nav class="navbar navbar-inverse">
+	      <div class="navbar-header">
+	        <a class="navbar-brand" href="/update">家計簿更新</a>
+	      </div>
+	  </nav>      
+	  <div class="row row-height">
+        <!-- 右側 -->
+        <div class="col-md-3 p-5">
+          <div class="card-header rounded">
+            <p><b><span style="border-bottom: solid 2px black;">記入欄</span></b></p>
+          </div>
+          <div class="card-body rounded">
+            <div class="form-group">
+              <label for="date">日付</label>
+              <input type="text" id="date" name="date" maxlength="8" class="form-control" th:value="${date}">
+            </div>
+            <div class="form-group">
+              <label for="expense_item">費目</label>
+              <select id="expense_item" name="expense_item" class="form-control">
+                <option th:each="list : ${itemList}" th:value="${list.value}" th:selected="${list.value == expense_item}" th:inline="text" th:text="${list.name}"></option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="amount">金額</label>
+              <input type="text" id="amount" name="amount" style="text-align:right" class="form-control" maxlength="10" th:value="${amount}">
+            </div>
+            <div class="form-group">
+              <label for="remark">備考</label>
+              <textarea id="remark" maxlength="100" autocomplete="off" rows="4" class="form-control" style="resize: none; width:200px;" name="remark" th:text="${remark}" ></textarea>
+            </div>
+            <p><button type="submit" onClick="updateform.btnFlg.value='update'" class="btn btn-primary" style="width:200px">家計簿の更新</button></p>
+            <p><button type="submit" onClick="updateform.btnFlg.value='search'" class="btn btn-primary" style="width:200px">履歴へ戻る</button></p>
+          </div>
+        </div>
+      
+        <!-- 左側 -->
+        <div class="col-md-9 pt-5">
+          <div class="card-header rounded">
+            <p><b><span style="border-bottom: solid 2px black;">家計簿記入一覧</span></b></p>
+          </div>
+          <div class="card-body rounded">
+          <!-- 家計簿記入一覧 -->
+            <table  class="table table-bordered table-hover table-responsive-md">
+              <thead class="thead-light" style="display: block;">
+                <tr>
+                  <td style="width:150px;">日付</td>
+                  <td style="width:150px;">費目</td>
+                  <td style="width:200px;">金額</td>
+                  <td style="width:390px;">備考</td>
+                </tr>
+              </thead>
+              <tbody style="overflow-x: hidden; overflow-y: scroll; display: block; height: 330px;">
+                <tr th:each="obj : ${detail}">
+                  <td style="width:150px;" th:text="${obj.detailDate}"></td>
+                  <td style="width:150px;" th:text="${obj.detailExpense_item}"></td>
+                  <td style="width:200px;" th:text="${obj.detailAmount}"></td>
+                  <td style="width:390px;" th:text="${obj.detailRemark}"></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="clearfix">
+              <div class="float-right">
+                <label for="summary">収支合計金額
+                  <input type="text" disabled id="summary" name="summary" style="text-align:right" class="form-control" maxlength="10" th:value="${summary}">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </form>
+</body>
+</html>
