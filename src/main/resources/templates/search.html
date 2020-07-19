@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<!-- Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!-- Bootstrap datepicker -->
+<link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.ja.min.js}"></script>
+
+<link th:href="@{/css/screen.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<title>家計簿履歴検索</title>
+<script type="text/javascript">
+// 削除ボタンor更新ボタンを押下した時
+function multipleaction(id, btn){
+	var form = document.searchform;
+	form.btnFlg.value = btn;
+	form.action = "/search/" + id;
+	form.submit();
+}
+</script>
+</head>
+<body>
+  <form id="searchform" name="searchform" method="post" action="/search" th:object="${formModel}">
+    <input type ="hidden" name="btnFlg" value="">
+    <div class="container-fluid">
+	  <nav class="navbar navbar-inverse">
+	      <div class="navbar-header">
+	        <a class="navbar-brand" href="/search/init">家計簿履歴検索</a>
+	      </div>
+	  </nav>      
+	  <div class="row row-height">
+        <!-- 右側 -->
+        <div class="col-md-3 p-5">
+          <div class="card-header rounded">
+            <p><b><span style="border-bottom: solid 2px black;">検索欄</span></b></p>
+          </div>
+          <div class="card-body rounded">
+            <div class="form-group">
+              <label for="strDate">日付</label>
+              <input type="text" id="strDate" name="strDate" maxlength="8" class="form-control" th:value="${strDate}">
+            </div>
+            <div class="form-group">
+              <label for="endDate">～</label>
+              <input type="text" id="endDate" name="endDate" maxlength="8" class="form-control" th:value="${endDate}">
+            </div>
+            <div class="form-group">
+              <label for="expense_item">費目</label>
+              <select id="expense_item" name="expense_item" class="form-control">
+                <option th:each="list : ${itemList}" th:value="${list.value}" th:selected="${list.value == expense_item}" th:inline="text" th:text="${list.name}"></option>
+              </select>              
+            </div>
+            <div class="form-group">
+              <label for="strAmount">金額</label>
+              <input type="text" id="strAmount" name="strAmount" style="text-align:right;" class="form-control" maxlength="10" th:value="${strAmount}">
+            </div>
+            <div class="form-group">
+              <label for="endAmount">～</label>
+              <input type="text" id="endAmount" name="endAmount" style="text-align:right;" class="form-control" maxlength="10" th:value="${endAmount}">
+            </div>
+            <div class="form-group">
+              <label for="remark">備考(あいまい検索)</label>
+              <input type="text" id="remark" name="remark" style="text-align:right" class="form-control" th:value="${remark}">
+            </div>
+            <p><button type="submit" onClick="searchform.btnFlg.value='search'" class="btn btn-primary" style="width:200px">履歴検索</button></p>
+            <p><button type="submit" onClick="searchform.btnFlg.value='menu'" class="btn btn-primary" style="width:200px">メニューへ戻る</button></p>
+          </div>
+        </div>
+      
+        <!-- 左側 -->
+        <div class="col-md-9 pt-5">
+          <div class="card-header rounded">
+            <p><b><span style="border-bottom: solid 2px black;">家計簿記入一覧</span></b></p>
+          </div>
+          <div class="card-body rounded">
+          <!-- 家計簿記入一覧 -->
+            <table  class="table table-bordered table-hover table-responsive-md">
+              <thead class="thead-light" style="display: block;">
+                <tr>
+                  <td style="width:120px;">日付</td>
+                  <td style="width:120px;">費目</td>
+                  <td style="width:190px;">金額</td>
+                  <td style="width:300px;">備考</td>
+                  <td style="width:90px;">変更</td>
+                  <td style="width:90px;">削除</td>
+                </tr>
+              </thead>
+              <tbody style="overflow-x: hidden; overflow-y: scroll; display: block; height: 330px;">
+                <tr th:each="obj : ${detail}">
+                  <td style="width:120px;" th:text="${obj.detailDate}"></td>
+                  <td style="width:120px;" th:text="${obj.detailExpense_item}"></td>
+                  <td style="width:190px;" th:text="${obj.detailAmount}"></td>
+                  <td style="width:300px;" th:text="${obj.detailRemark}"></td>
+                  <td style="width:90px;"><button type="button" id="updBtn" name="updBtn" onClick="multipleaction(this.value,'update')" th:value="${obj.id}" class="btn btn-primary">変更</button></td>
+                  <td style="width:90px;"><button type="button" id="delBtn" name="delBtn" onClick="multipleaction(this.value,'delete')" th:value="${obj.id}" class="btn btn-primary">削除</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="clearfix">
+              <div class="float-right">
+                <label for="summary">収支合計金額
+                  <input type="text" disabled id="summary" name="summary" style="text-align:right" class="form-control" maxlength="10" th:value="${summary}">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </form>
+</body>
+</html>
