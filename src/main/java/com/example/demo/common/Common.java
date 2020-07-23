@@ -39,12 +39,12 @@ public class Common {
             date = cal.getActualMaximum(Calendar.DATE);
             cal.set(year, month, date, 0, 0, 0);
         }
-        
         //日付チェック
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         sdf.setLenient(false);
         return sdf.format(cal.getTime()); 
 	}
+	// 前月、今月日付取得
 	protected Date getDate(boolean flg) {
 		Date retDate = null;
 		Calendar cal = Calendar.getInstance();
@@ -114,5 +114,9 @@ public class Common {
     	list.add(il);
     	
     	return list;
+    }
+    // カンマ付加処理
+    protected String comma(String data) {
+    	return data.length() > 3 ? String.format("%1$,3d",Long.parseLong(data)) : data;
     }
 }

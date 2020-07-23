@@ -16,7 +16,7 @@ $(function(){
 });
 function entryCheck(form){
 	var btnFlg = form.btnFlg.value;
-	if(btnFlg == "insert" ){
+	if(btnFlg == "insert" || btnFlg == "update"){
 		var dateval = form.date.value;
 		// 日付チェック
 		if(dateval == ""){

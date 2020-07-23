@@ -5,9 +5,16 @@ public class SearchData {
 	private String detailDate;
 	private String detailExpense_item;
 	private String detailAmount;
+	private String detailHiddenAmount;
 	private String detailRemark;
 	private String detailExpense_item_val;
 	
+	public String getDetailHiddenAmount() {
+		return detailHiddenAmount;
+	}
+	public void setDetailHiddenAmount(String detailHiddenAmount) {
+		this.detailHiddenAmount = detailHiddenAmount;
+	}
 	public String getId() {
 		return id;
 	}

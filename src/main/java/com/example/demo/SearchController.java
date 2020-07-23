@@ -156,7 +156,7 @@ public class SearchController extends Common {
 					sd.setId(list.get("ID").toString());
 					sd.setDetailDate(list.get("INPUT_DATE").toString());
 					sd.setDetailExpense_item(list.get("EXPENSE_ITEM").toString());
-					sd.setDetailAmount(list.get("AMOUNT").toString().length() > 3 ? String.format("%1$,3d",Long.parseLong(list.get("AMOUNT").toString())) : list.get("AMOUNT").toString());
+					sd.setDetailAmount(comma(list.get("AMOUNT").toString()));
 					sd.setDetailRemark(blank(list.get("REMARK")));
 					data.add(sd);
 				});

@@ -40,7 +40,7 @@ public class UpdateController extends Common {
     	mav.addObject("date", detail.get(0).getDetailDate().replace("/", ""));
     	mav.addObject("expense_item", detail.get(0).getDetailExpense_item_val());
     	mav.addObject("itemList", getItemList());
-    	mav.addObject("amount", detail.get(0).getDetailAmount());
+    	mav.addObject("amount", detail.get(0).getDetailHiddenAmount());
     	mav.addObject("remark", detail.get(0).getDetailRemark());
     	mav.addObject("summary", totalAmount);
         // 戻り画面
@@ -96,7 +96,8 @@ public class UpdateController extends Common {
 					sd.setId(list.get("ID").toString());
 					sd.setDetailDate(list.get("INPUT_DATE").toString());
 					sd.setDetailExpense_item(list.get("EXPENSE_ITEM").toString());
-					sd.setDetailAmount(list.get("AMOUNT").toString().length() > 3 ? String.format("%1$,3d",Long.parseLong(list.get("AMOUNT").toString())) : list.get("AMOUNT").toString());
+					sd.setDetailAmount(comma(list.get("AMOUNT").toString()));
+					sd.setDetailHiddenAmount(list.get("AMOUNT").toString());
 					sd.setDetailRemark(blank(list.get("REMARK")));
 					sd.setDetailExpense_item_val(blank(list.get("EXPENSE_ITEM_VAL")));
 					data.add(sd);

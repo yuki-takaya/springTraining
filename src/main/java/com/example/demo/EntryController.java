@@ -104,12 +104,13 @@ public class EntryController extends Common {
 				if(!id.equals(frmId)) {
 					String date = form.getDetailDate()[i];
 					String expense_item = form.getDetailExpense_item()[i];
-					String amount = form.getDetailAmount()[i].replace(",", "");
+					String amount = form.getDetailHiddenAmount()[i];
 					String remark = form.getDetailRemark()[i];
 					sd.setId(id);
 					sd.setDetailDate(date);
 					sd.setDetailExpense_item(expense_item);
-					sd.setDetailAmount(amount.length() > 3 ? String.format("%1$,3d",Long.parseLong(amount)) : amount);
+					sd.setDetailAmount(comma(amount));
+					sd.setDetailHiddenAmount(amount);
 					sd.setDetailRemark(remark);
 					data.add(sd);
 				}
@@ -147,17 +148,19 @@ public class EntryController extends Common {
 		List<SearchData> data = new ArrayList<SearchData>();
 		// 画面データをセッターに格納
 		if(form.getId() != null) {
-			for (int i=0; i< form.getId().length; i++ ) {
+			int loopcnt = form.getId().length;
+			for (int i=0; i < loopcnt; i++ ) {
 				sd = new SearchData();
 				String id = form.getId()[i];
 				String date = form.getDetailDate()[i];
 				String expense_item = form.getDetailExpense_item()[i];
-				String amount = form.getDetailAmount()[i].replace(",", "");
+				String amount = form.getDetailHiddenAmount()[i];
 				String remark = form.getDetailRemark()[i];
 				sd.setId(id);
 				sd.setDetailDate(date);
 				sd.setDetailExpense_item(expense_item);
-				sd.setDetailAmount(amount.length() > 3 ? String.format("%1$,3d",Long.parseLong(amount)) : amount);
+				sd.setDetailAmount(comma(amount));
+				sd.setDetailHiddenAmount(amount);
 				sd.setDetailRemark(remark);
 				data.add(sd);
 			}
@@ -169,7 +172,8 @@ public class EntryController extends Common {
 					sd.setId(list.get("ID").toString());
 					sd.setDetailDate(list.get("INPUT_DATE").toString());
 					sd.setDetailExpense_item(list.get("EXPENSE_ITEM").toString());
-					sd.setDetailAmount(list.get("AMOUNT").toString().length() > 3 ? list.get("AMOUNT").toString() : String.format("%1$,3d",Long.parseLong(list.get("AMOUNT").toString())));
+					sd.setDetailAmount(comma(list.get("AMOUNT").toString()));
+					sd.setDetailHiddenAmount(list.get("AMOUNT").toString());
 					sd.setDetailRemark(blank(list.get("REMARK")));
 					data.add(sd);
 				});

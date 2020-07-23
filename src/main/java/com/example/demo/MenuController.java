@@ -40,17 +40,17 @@ public class MenuController extends Common {
         // 今月収支合計の取得
         List<HashMap<String, String>> listMonth 
     	= da.select(sql.getIncomeExpenditure(), new String[] {"MONTH_SUM_AMOUNT"}, new String[] {strMonth, endMonth});
-        String monthMoney = listMonth.get(0).get("MONTH_SUM_AMOUNT") == null ? "0" : listMonth.get(0).get("MONTH_SUM_AMOUNT"); 
+        String monthMoney = zero(listMonth.get(0).get("MONTH_SUM_AMOUNT")); 
         // 前月収支合計の取得
         List<HashMap<String, String>> listLastMonth 
     	= da.select(sql.getIncomeExpenditure(), new String[] {"MONTH_SUM_AMOUNT"}, new String[] {strLastMonth, endLastMonth});
-        String lastMonthMoney = listLastMonth.get(0).get("MONTH_SUM_AMOUNT") == null ? "0" : listLastMonth.get(0).get("MONTH_SUM_AMOUNT");
+        String lastMonthMoney = zero(listLastMonth.get(0).get("MONTH_SUM_AMOUNT"));
         // 差額取得
         String diffMoney = String.valueOf(Long.parseLong(monthMoney) - Long.parseLong(lastMonthMoney)); 
         // カンマ付加
-        monthMoney = monthMoney.length() > 3 ? String.format("%1$,3d",Long.parseLong(monthMoney)) : monthMoney;
-        lastMonthMoney = lastMonthMoney.length() > 3 ? String.format("%1$,3d",Long.parseLong(lastMonthMoney)) : lastMonthMoney;
-        diffMoney = diffMoney.length() > 3 ? String.format("%1$,3d",Long.parseLong(diffMoney)) : diffMoney;
+        monthMoney = comma(monthMoney);
+        lastMonthMoney = comma(lastMonthMoney);
+        diffMoney = comma(diffMoney);
         // 戻り値
         mav.setViewName("menu");
         mav.addObject("note_data", note.getNote_data());
