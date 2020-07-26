@@ -24,12 +24,12 @@ public class DbCommon {
 		return props.getProperty("spring.datasource.url");
 	}
 	
-	public Connection getConn() throws SQLException, IOException {
+	protected Connection getConn() throws SQLException, IOException {
 		dbConnection();
 		return conn;
 	}
 
-	public void setConn(Connection conn) {
+	protected void setConn(Connection conn) {
 		this.conn = conn;
 	}
 
@@ -42,7 +42,7 @@ public class DbCommon {
 		conn.close();
 	}
 	
-	public void dbDisCon() throws SQLException {
+	protected void dbDisCon() throws SQLException {
 		disConnection();
 	}
 }

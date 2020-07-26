@@ -11,7 +11,7 @@ public class DbDataAccess extends DbCommon{
 	public ArrayList<HashMap<String, String>> select (String sql, String[] retData, String[] param) throws SQLException {
 		
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-		
+		// DB接続オープン
 		try(PreparedStatement ps = getConn().prepareStatement(sql)){
 			// パラメタセット
 			for(int i=0; i < param.length; i++) {
@@ -22,6 +22,7 @@ public class DbDataAccess extends DbCommon{
 					ps.setObject(p, param[i]);
 				}
 			}
+			// SQL実行
             try(ResultSet rs = ps.executeQuery()){
                 while (rs.next()) {
                 	HashMap<String,String> map = new HashMap<String,String>();
@@ -36,17 +37,18 @@ public class DbDataAccess extends DbCommon{
             // PreparedStatement クローズ
             ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("SELECT処理に失敗しました。");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+        	// DB接続クローズ
         	dbDisCon();
-            System.out.println("select処理が完了しました");
         }
 		return list;
 	}
 	// insert/update/delete実行
 	public void execute(String sql, String[] param) throws SQLException {
+		// DB接続オープン
 		try(PreparedStatement ps = getConn().prepareStatement(sql)){
 			// パラメタセット
 			for(int i=0; i < param.length; i++) {
@@ -57,16 +59,17 @@ public class DbDataAccess extends DbCommon{
 					ps.setObject(p, param[i]);
 				}
 			}
+			// クエリ実行
 			ps.executeUpdate();
             // PreparedStatement クローズ
             ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+        	throw new SQLException("更新処理に失敗しました。");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+        	// DB接続クローズ
         	dbDisCon();
-            System.out.println("更新処理が完了しました");
         }
 	}
 }
