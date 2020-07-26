@@ -3,14 +3,10 @@ package com.example.demo.common;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.common.DbDataAccess;
 
