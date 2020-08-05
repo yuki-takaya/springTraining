@@ -12,7 +12,7 @@ import com.example.demo.sql.SqlList;
 
 public class Common {
 	
-	// コンストラクタ
+	// kyoutsuパラメタセット
 	protected DbDataAccess da = new DbDataAccess();
 	protected SqlList sql = new SqlList();
 	protected SearchData sd = new SearchData();
@@ -24,27 +24,26 @@ public class Common {
 		
 		Calendar cal = Calendar.getInstance();
         
-        //年月をセットする
         cal.setTime(nengetsu);
          
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int date = 1;
-        // 月初取得
+        
         cal.set(year, month, date, 0, 0, 0);
          
-        //終了年月日を取得する
+        // saishuu年月日を取得する
         if(!firstdayFlg){
-            //月末日を取得する
-            date = cal.getActualMaximum(Calendar.DATE);
+        	// getumatuを取得する
+        	date = cal.getActualMaximum(Calendar.DATE);
             cal.set(year, month, date, 0, 0, 0);
         }
-        //日付チェック
+        // yyyymmdd形式に変換
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         sdf.setLenient(false);
         return sdf.format(cal.getTime()); 
 	}
-	// 前月、今月日付取得
+	// a、今月日付取得 
 	protected Date getDate(boolean flg) {
 		Date retDate = null;
 		Calendar cal = Calendar.getInstance();
@@ -58,7 +57,7 @@ public class Common {
 		}
 		return retDate; 
 	}
-	// 検索パラメタセット
+	// searchパラメタセット
 	protected String getPrm(String value) {
 		String retValue = value;
 		if(value == null || value.equals("")) {
@@ -82,17 +81,22 @@ public class Common {
 		}
 		return retValue;
 	}
-	// 収支合計金額取得
+	// 1収支合計取得
     protected String getTotalAmount(List<SearchData> data) {
     	long totalAmount = 0;
     	String strTotalAmount = "0";
     	for(SearchData a : data) {
-    		totalAmount += Long.parseLong(a.getDetailAmount().replace(",", "").trim());
+    		long amount = Long.parseLong(a.getDetailAmount().replace(",", "").trim());
+    		// 2支払の場合はマイナスする
+    		if(a.getDetailExpense_item_val().equals("2")) {
+    			amount = amount * -1; 
+    		}
+    		totalAmount += amount;
     	}
     	strTotalAmount = String.valueOf(totalAmount); 
     	return strTotalAmount.length() > 3 ?  String.format("%1$,3d",totalAmount) : strTotalAmount;
     }
-    // 費目リストの作成
+    // gethimokuMaster
     protected List<ItemList> getItemList(){
     	return getItemList(false);
     }
@@ -115,7 +119,7 @@ public class Common {
     	
     	return list;
     }
-    // カンマ付加処理
+    // aカンマ付加処理
     protected String comma(String data) {
     	return data.length() > 3 ? String.format("%1$,3d",Long.parseLong(data)) : data;
     }

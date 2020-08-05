@@ -92,6 +92,7 @@ public class SqlList {
 		sb.append(" ,CASE WHEN EXPENSE_ITEM = 1 THEN '1:収入' ELSE '2:支出' END AS EXPENSE_ITEM ");
 		sb.append(" ,AMOUNT       ");
 		sb.append(" ,REMARK       ");
+		sb.append(" ,EXPENSE_ITEM AS EXPENSE_ITEM_VAL ");
 		sb.append("FROM HOUSEHOLD_ACCOUNTS ");
 		sb.append("WHERE (INPUT_DATE  >= ?  OR ? IS NULL) ");
 		sb.append("AND   (INPUT_DATE  <= ?  OR ? IS NULL) ");

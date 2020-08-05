@@ -104,6 +104,7 @@ public class EntryController extends Common {
 				if(!id.equals(frmId)) {
 					String date = form.getDetailDate()[i];
 					String expense_item = form.getDetailExpense_item()[i];
+					String expense_item_val = form.getDetailExpense_item_val()[i];
 					String amount = form.getDetailHiddenAmount()[i];
 					String remark = form.getDetailRemark()[i];
 					sd.setId(id);
@@ -112,6 +113,7 @@ public class EntryController extends Common {
 					sd.setDetailAmount(comma(amount));
 					sd.setDetailHiddenAmount(amount);
 					sd.setDetailRemark(remark);
+					sd.setDetailExpense_item_val(expense_item_val);
 					data.add(sd);
 				}
 			}
@@ -143,6 +145,7 @@ public class EntryController extends Common {
     					,"EXPENSE_ITEM"
     					,"AMOUNT"
     					,"REMARK"
+    					,"EXPENSE_ITEM_VAL"
     					}, new String[] {maxId});
 		// listデータに格納
 		List<SearchData> data = new ArrayList<SearchData>();
@@ -154,6 +157,7 @@ public class EntryController extends Common {
 				String id = form.getId()[i];
 				String date = form.getDetailDate()[i];
 				String expense_item = form.getDetailExpense_item()[i];
+				String expense_item_val = form.getDetailExpense_item_val()[i];
 				String amount = form.getDetailHiddenAmount()[i];
 				String remark = form.getDetailRemark()[i];
 				sd.setId(id);
@@ -162,6 +166,7 @@ public class EntryController extends Common {
 				sd.setDetailAmount(comma(amount));
 				sd.setDetailHiddenAmount(amount);
 				sd.setDetailRemark(remark);
+				sd.setDetailExpense_item_val(expense_item_val);
 				data.add(sd);
 			}
 		}
@@ -175,6 +180,7 @@ public class EntryController extends Common {
 					sd.setDetailAmount(comma(list.get("AMOUNT").toString()));
 					sd.setDetailHiddenAmount(list.get("AMOUNT").toString());
 					sd.setDetailRemark(blank(list.get("REMARK")));
+					sd.setDetailExpense_item_val(list.get("EXPENSE_ITEM_VAL").toString());
 					data.add(sd);
 				});
     	return data;

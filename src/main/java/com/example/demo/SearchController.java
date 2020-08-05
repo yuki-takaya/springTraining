@@ -132,6 +132,7 @@ public class SearchController extends Common {
     					,"EXPENSE_ITEM"
     					,"AMOUNT"
     					,"REMARK"
+    					,"EXPENSE_ITEM_VAL"
     					}
     			, new String[] {
     					 getPrm(form.getStrDate())
@@ -158,6 +159,7 @@ public class SearchController extends Common {
 					sd.setDetailExpense_item(list.get("EXPENSE_ITEM").toString());
 					sd.setDetailAmount(comma(list.get("AMOUNT").toString()));
 					sd.setDetailRemark(blank(list.get("REMARK")));
+					sd.setDetailExpense_item_val(list.get("EXPENSE_ITEM_VAL").toString());
 					data.add(sd);
 				});
     	return data;

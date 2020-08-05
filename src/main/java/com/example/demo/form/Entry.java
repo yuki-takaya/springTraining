@@ -10,10 +10,17 @@ public class Entry {
 	private String[] id;
 	private String[] detailDate;
 	private String[] detailExpense_item;
+	private String[] detailExpense_item_val;
 	private String[] detailAmount;
 	private String[] detailHiddenAmount;
 	private String[] detailRemark;
 	
+	public String[] getDetailExpense_item_val() {
+		return detailExpense_item_val;
+	}
+	public void setDetailExpense_item_val(String[] detailExpense_item_val) {
+		this.detailExpense_item_val = detailExpense_item_val;
+	}
 	public String[] getDetailHiddenAmount() {
 		return detailHiddenAmount;
 	}
