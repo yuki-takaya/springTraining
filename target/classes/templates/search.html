@@ -104,7 +104,13 @@ function multipleaction(id, btn){
             </table>
             <div class="clearfix">
               <div class="float-right">
-                <label for="summary">収支合計金額
+                <label for="incomeSummary">収入合計金額(A)
+                  <input type="text" disabled id="incomeSummary" name="incomeSummary" style="text-align:right" class="form-control" maxlength="10" th:value="${incomeSummary}">
+                </label>
+                <label for="spendSummary">支出合計金額(B)
+                  <input type="text" disabled id="spendSummary" name="spendSummary" style="text-align:right" class="form-control" maxlength="10" th:value="${spendSummary}">
+                </label>
+                <label for="summary">収支合計金額(A)-(B)
                   <input type="text" disabled id="summary" name="summary" style="text-align:right" class="form-control" maxlength="10" th:value="${summary}">
                 </label>
               </div>

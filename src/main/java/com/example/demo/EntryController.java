@@ -26,6 +26,8 @@ public class EntryController extends Common {
             ModelAndView mav) {
     	mav.addObject("itemList", getItemList());
     	mav.addObject("amount", "0");
+    	mav.addObject("incomeSummary", "0");
+    	mav.addObject("spendSummary", "0");
     	mav.addObject("summary", "0");
         // 戻り値
         mav.setViewName("entry");
@@ -46,7 +48,7 @@ public class EntryController extends Common {
     			// 登録処理実行
     			List<SearchData> detail = insert(form);
     			// 収支合計金額取得
-    	    	String totalAmount = getTotalAmount(detail);
+    	    	String[] totalAmount = getTotalAmount(detail);
     			// 検索結果データセット
     			mav.addObject("detail", detail);
     			mav.addObject("date", form.getDate());
@@ -54,7 +56,9 @@ public class EntryController extends Common {
     	    	mav.addObject("itemList", getItemList());
     	    	mav.addObject("amount", form.getAmount());
     	    	mav.addObject("remark", form.getRemark());
-    	    	mav.addObject("summary", totalAmount);
+    	    	mav.addObject("incomeSummary", totalAmount[0]);
+    	    	mav.addObject("spendSummary", totalAmount[1]);
+    	    	mav.addObject("summary", totalAmount[2]);
     			break;
     		case "menu":
     			screen = "redirect:/";
@@ -77,14 +81,16 @@ public class EntryController extends Common {
     	// 削除処理実行
     	List<SearchData> detail = delete(form, id);
     	// 収支合計金額取得
-    	String totalAmount = getTotalAmount(detail);
+    	String[] totalAmount = getTotalAmount(detail);
     	mav.addObject("detail", detail);
     	mav.addObject("date", form.getDate());
     	mav.addObject("expense_item", form.getExpense_item());
     	mav.addObject("itemList", getItemList());
     	mav.addObject("amount", form.getAmount());
     	mav.addObject("remark", form.getRemark());
-    	mav.addObject("summary", totalAmount);
+    	mav.addObject("incomeSummary", totalAmount[0]);
+    	mav.addObject("spendSummary", totalAmount[1]);
+    	mav.addObject("summary", totalAmount[2]);
     	mav.setViewName("entry");
         return mav; 
 	}

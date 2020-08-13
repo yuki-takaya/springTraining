@@ -170,7 +170,7 @@ public class SearchController extends Common {
     }
     private void setScreen(ModelAndView mav, Search form, List<SearchData> detail, HttpServletRequest request) {
     	// 収支合計金額取得
-    	String totalAmount = getTotalAmount(detail);
+    	String[] totalAmount = getTotalAmount(detail);
 		// 検索結果データセット
 		mav.addObject("detail", detail);
 		mav.addObject("strDate", form.getStrDate());
@@ -180,7 +180,9 @@ public class SearchController extends Common {
     	mav.addObject("strAmount", form.getStrAmount());
     	mav.addObject("endAmount", form.getEndAmount());
     	mav.addObject("remark", form.getRemark());
-    	mav.addObject("summary", totalAmount);
+    	mav.addObject("incomeSummary", totalAmount[0]);
+    	mav.addObject("spendSummary", totalAmount[1]);
+    	mav.addObject("summary", totalAmount[2]);
     	// セッション情報へ書込み
     	if(request != null) {    		
 	    	HttpSession session = request.getSession();

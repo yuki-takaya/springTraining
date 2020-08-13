@@ -33,7 +33,7 @@ public class UpdateController extends Common {
     	// 検索処理実行
     	List<SearchData> detail = search(id);
     	// 収支合計金額取得
-    	String totalAmount = getTotalAmount(detail);
+    	String[] totalAmount = getTotalAmount(detail);
     	mav.addObject("detail", detail);
     	mav.addObject("id", detail.get(0).getId());
     	mav.addObject("date", detail.get(0).getDetailDate().replace("/", ""));
@@ -41,7 +41,9 @@ public class UpdateController extends Common {
     	mav.addObject("itemList", getItemList());
     	mav.addObject("amount", detail.get(0).getDetailHiddenAmount());
     	mav.addObject("remark", detail.get(0).getDetailRemark());
-    	mav.addObject("summary", totalAmount);
+    	mav.addObject("incomeSummary", totalAmount[0]);
+    	mav.addObject("spendSummary", totalAmount[1]);
+    	mav.addObject("summary", totalAmount[2]);
         // 戻り画面
         mav.setViewName("update");
         return mav;

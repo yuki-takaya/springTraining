@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
-import com.example.demo.common.DbDataAccess;
-
 class DbDataAccessTest {
 
 	private final String note_data = "TEST_NOTE_DATA";

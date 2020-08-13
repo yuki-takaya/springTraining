@@ -82,19 +82,34 @@ public class Common {
 		return retValue;
 	}
 	// 1収支合計取得
-    protected String getTotalAmount(List<SearchData> data) {
+    protected String[] getTotalAmount(List<SearchData> data) {
+    	long totalIncome = 0;
+    	long totalSpend = 0;
     	long totalAmount = 0;
+    	String strTotalIncome = "0";
+    	String strTotalSpend = "0";
     	String strTotalAmount = "0";
     	for(SearchData a : data) {
-    		long amount = Long.parseLong(a.getDetailAmount().replace(",", "").trim());
+    		long income = Long.parseLong(a.getDetailAmount().replace(",", "").trim());
+    		long spend = Long.parseLong(a.getDetailAmount().replace(",", "").trim());
+    		if(a.getDetailExpense_item_val().equals("1")) {
+    			totalIncome += income; 
+    		}
     		// 2支払の場合はマイナスする
     		if(a.getDetailExpense_item_val().equals("2")) {
-    			amount = amount * -1; 
+    			totalSpend += spend; 
     		}
-    		totalAmount += amount;
     	}
+    	totalAmount = totalIncome - totalSpend;
+    	strTotalIncome = String.valueOf(totalIncome);
+    	strTotalSpend = String.valueOf(totalSpend);
     	strTotalAmount = String.valueOf(totalAmount); 
-    	return strTotalAmount.length() > 3 ?  String.format("%1$,3d",totalAmount) : strTotalAmount;
+    	
+    	return new String[] {
+    			strTotalIncome.length() > 3 ?  String.format("%1$,3d",totalIncome) : strTotalIncome
+    			,strTotalSpend.length() > 3 ?  String.format("%1$,3d",totalSpend) : strTotalSpend
+    			,strTotalAmount.length() > 3 ?  String.format("%1$,3d",totalAmount) : strTotalAmount
+    	}; 
     }
     // gethimokuMaster
     protected List<ItemList> getItemList(){
